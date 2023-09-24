@@ -21,7 +21,7 @@ services:
   # app
   web:
 #    build: .
-    #
+    # https://hub.docker.com/_/maven
     image: maven:3.8.6-amazoncorretto-8
     ports:
       - "8080:8080"

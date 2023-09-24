@@ -1,5 +1,7 @@
 package com.NewTest.home.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/sample/home")
 public class MainHomeController {
 
+    /** ロガー */
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * コントローラークラス配下メソッド
      * 説明：上記クラスの下の○○が/mainHomeでアクセス
@@ -22,6 +27,7 @@ public class MainHomeController {
      */
     @RequestMapping(value = "/mainHome")
     public String view() {
+        logger.info("ホーム画面が表示されます。");
 
         return "/home/MainHome";
     }

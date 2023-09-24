@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.NewTest.jpaSample.constant.MeetingReservationConstant;
 import com.NewTest.jpaSample.form.MeetingReservationListForm;
-import com.NewTest.jpaSample.service.MeetingReservationListService;
+import com.NewTest.jpaSample.service.MeetingReservationService;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 会議室新規予約コントローラー
@@ -22,9 +25,11 @@ import com.NewTest.jpaSample.service.MeetingReservationListService;
  */
 @Controller
 public class MeetingReservationRegistController {
+    /** ロガー */
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    MeetingReservationListService meetingReservationListService;
+    MeetingReservationService meetingReservationService;
 
     /**
      * 初期表示処理
@@ -36,39 +41,17 @@ public class MeetingReservationRegistController {
      * @return 会議室新規予約画面
      * @throws Exception 例外
      */
-    // @RequestMapping の value = について
-    // method = RequestMethod.GET でGETのみ受け取る
-    // method = RequestMethod.POST POSTのみ受け取る 両方ともなら書かない(セキュリティに問題あるので基本書く)
-    @RequestMapping(value = MeetingReservationConstant.URL_MEETINGRESERVATIONREGIST_VIEW)
+    @RequestMapping(value = MeetingReservationConstant.URL_MEETING_RESERVATION_REGIST_VIEW, method = RequestMethod.POST)
     public String show(MeetingReservationListForm form, Model model, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
         // セレクトボックス項目の設定
-        model.addAllAttributes(meetingReservationListService.init());
+        model.addAllAttributes(meetingReservationService.init());
+
+        logger.info("会議室新規予約画面が表示されます。");
 
         // 会議室新規予約画面へ遷移
-        return MeetingReservationConstant.PAGE_MEETINGRESERVATIONREGIST;
-    }
-
-    /**
-     * 一時保存ボタン押したときの処理
-     *
-     * @param form 画面入力値
-     * @param model モデル
-     * @param request リクエスト
-     * @param response レスポンス
-     * @return 会議室新規予約画面
-     * @throws Exception 例外
-     */
-    @RequestMapping(value = "/jpa/MeetingReservationRegist/TempSave")
-    public String TempSave(MeetingReservationListForm form, Model model, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        // フォームを設定(Map情報)
-        model.addAllAttributes(this.init());
-
-        // 会議予約一覧画面へ遷移
-        return MeetingReservationConstant.PAGE_MEETINGRESERVATIONLIST;
+        return MeetingReservationConstant.PAGE_MEETING_RESERVATION_REGIST;
     }
 
     /**
@@ -78,10 +61,10 @@ public class MeetingReservationRegistController {
      * @param model モデル
      * @param request リクエスト
      * @param response レスポンス
-     * @return 会議室新規予約画面
+     * @return 会議予約一覧画面
      * @throws Exception 例外
      */
-    @RequestMapping(value = "/jpa/MeetingReservationRegist/Register")
+    @RequestMapping(value = MeetingReservationConstant.URL_MEETING_RESERVATION_REGIST_RAGISTER, method = RequestMethod.POST)
     public String Register(MeetingReservationListForm form, Model model, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
@@ -93,20 +76,22 @@ public class MeetingReservationRegistController {
             form.setDialogueErrMsg(errMsg);
 
             // セレクトボックス項目の設定(日付)
-            model.addAllAttributes(meetingReservationListService.init());
+            model.addAllAttributes(meetingReservationService.init());
 
             // 会議室新規予約画面へ遷移
-            return MeetingReservationConstant.PAGE_MEETINGRESERVATIONREGIST;
+            return MeetingReservationConstant.PAGE_MEETING_RESERVATION_REGIST;
         }
 
         // データベースに登録するためにサービスクラスにフォームを渡す
-        meetingReservationListService.insertMeetingReservation(form);
+        meetingReservationService.insertMeetingReservation(form);
 
-        // フォームを設定(Map情報)
+        // モデルを設定(Map情報)
         model.addAllAttributes(this.init());
 
+        logger.info("会議室予約一覧画面が表示されます。");
+
         // 会議予約一覧画面へ遷移
-        return MeetingReservationConstant.PAGE_MEETINGRESERVATIONLIST;
+        return MeetingReservationConstant.PAGE_MEETING_RESERVATION_LIST;
     }
 
     /**
@@ -117,13 +102,13 @@ public class MeetingReservationRegistController {
     private Map<String, Object> init() {
 
         // 返却する入れ物(Map生成)
-        Map<String, Object> meetingReservationListMap = new Hashtable<String, Object>();
+        Map<String, Object> meetingReservationListMap = new Hashtable<>();
 
         // サービスクラスよりフォーム情報取得
-        MeetingReservationListForm meetingReservationList = meetingReservationListService.initForm();
+        MeetingReservationListForm meetingReservationList = meetingReservationService.initForm();
 
         // meetingReservationListForm(Key)に対してフォーム情報(value)を設定
-        meetingReservationListMap.put(MeetingReservationConstant.MEETINGRESERVATIONLISTFORM, meetingReservationList);
+        meetingReservationListMap.put(MeetingReservationConstant.MEETING_RESERVATION_LIST_FORM, meetingReservationList);
 
         return meetingReservationListMap;
     }

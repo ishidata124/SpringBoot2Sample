@@ -1,4 +1,4 @@
-package com.NewTest.jpaSample.form;
+package com.NewTest.myBatisSample.form;
 
 import lombok.Data;
 

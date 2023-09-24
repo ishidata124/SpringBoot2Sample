@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- ブラウザのタイトル -->
+<title>会議室新規予約</title>
+<!-- htmlの指定とエンコーディングの指定 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- cssの読込 -->
+<link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+<!-- jquery読込 -->
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<!-- 国際化対応のライブラリをインポート-->
+<script type="text/javascript" src="/js/jquery-ui-i18n.min.js"></script>
+<!-- Thymeleafをjavascriptで使用する場合、以下2行のタグが必要(開始タグ) -->
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+/* 読み込み時実行 (jquery) */
+$(function() {
+    /* ホームへ戻るボタン */
+    $('#backList').on('click', function() {
+        const url = '/MeetingReservation/MeetingReservationList/View';
+        $('#form').attr('action', url);
+        $('#form').submit();
+    });
+
+    /* 予約ボタン */
+    $('#register').on('click', function() {
+        const url = '/MeetingReservation/MeetingReservationRegist/Register';
+        $('#form').attr('action', url);
+        $('#form').submit();
+    });
+
+    /* 画面にエラーダイアログ出力 */
+	// Thymeleafで渡された内容を取得
+	let dialogueErrMsg = [[${meetingReservationListForm.dialogueErrMsg}]];
+
+	// 中身があるか確認
+	if(dialogueErrMsg){
+		// ダイアログを出力
+		alert(dialogueErrMsg);
+	}
+
+ /* 日付選択画面表示 */
+ /*
+    // 日本語を有効化
+    $.datepicker.setDefaults($.datepicker.regional['ja']);
+    // 日付選択ボックスを生成
+    $('.datepicker').datepicker({
+        dateFormat : 'yy/mm/dd'
+    });
+    $('.datepicker').datepicker("option", "showOn", 'button');
+ */
+
+  /* 日付選択時にでてくるカレンダーのレイアウトオプション */
+  $('.datepicker').datepicker({
+	   dateFormat: "yy/mm/dd",
+	   closeText: "閉じる",
+	   prevText: "&#x3C;前",
+	   nextText: "次&#x3E;",
+	   currentText: "今日",
+	   monthNames: [
+	     "1月",
+	     "2月",
+	     "3月",
+	     "4月",
+	     "5月",
+	     "6月",
+	     "7月",
+	     "8月",
+	     "9月",
+	     "10月",
+	     "11月",
+	     "12月"
+	   ],
+	   monthNamesShort: [
+	     "1月",
+	     "2月",
+	     "3月",
+	     "4月",
+	     "5月",
+	     "6月",
+	     "7月",
+	     "8月",
+	     "9月",
+	     "10月",
+	     "11月",
+	     "12月"
+	   ],
+	   dayNames: [
+	     "日曜日",
+	     "月曜日",
+	     "火曜日",
+	     "水曜日",
+	     "木曜日",
+	     "金曜日",
+	     "土曜日"
+	   ],
+	   dayNamesShort: ["日", "月", "火", "水", "木", "金", "土"],
+	   dayNamesMin: ["日", "月", "火", "水", "木", "金", "土"],
+	   weekHeader: "週",
+	   isRTL: false,
+	   showMonthAfterYear: true,
+	   yearSuffix: "年",
+	   firstDay: 1, // 週の初めは月曜
+	   showButtonPanel: true // "今日"ボタン, "閉じる"ボタンを表示する
+  });
+   $('.datepicker').datepicker("option", "showOn", 'button');
+});
+
+ /*]]>*/
+</script>
+<!-- Thymeleafをjavascriptで使用する場合、直前2行のタグが必要(閉じタグ) -->
+
+<style>
+html, body {
+  height: 90%;
+}
+
+.content-area {
+  font-family: Meiryo UI;
+  font-size: 10pt;
+}
+
+.title {
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+table.main {
+  margin: 8px;
+  border-collapse: collapse;
+}
+
+.sarch th {
+  width: 100px;
+}
+
+.sarch td {
+  width: 185px;
+}
+
+th, td {
+  border-top: solid 1px;
+  border-left: solid 1px;
+  border-right: solid 1px;
+  border-bottom: solid 1px;
+}
+
+.hidden_box {
+  margin: 30px 0; /*上下左右の余白*/
+}
+
+/* ボタン装飾 */
+.hidden_box label {
+  margin: 8px;
+  padding: 5px 200px 5px 5px;
+  font-weight: bold;
+  border: solid 2px black;
+  cursor: pointer;
+}
+
+/* ボタンにカーソル合わせた時の色 */
+.hidden_box label:hover {
+  background: #CCFFFF;
+}
+
+/* チェックボックスは隠しで見えなくする */
+.hidden_box input[type=checkbox] {
+  display: none;
+}
+
+/* 中身を非表示にしておく */
+.hidden_box .hidden_show {
+  height: 0;
+  overflow: hidden;
+  opacity: 0; /* 透明の状態 */
+  transition: 0.5s;
+}
+
+/* クリックで中身表示 */
+/* checkboxにチェック時、間接セレクタ（hidden_show）にCSSを適用 */
+.hidden_box input[type=checkbox]:checked ~ .hidden_show {
+  height: auto;
+  opacity: 1; /* 不透明の状態 */
+}
+
+.sarch input[type=text] {
+  /* box-sizing:border-boxを指定する事で、width（とheight）で指定するサイズをBorderまで含める。 */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.sarch select {
+  width: 100%;
+}
+
+table.list {
+  table-layout: fixed;
+  word-wrap: break-word;
+  width: 1000px;
+}
+
+.checkBox {
+  width: 20px;
+}
+
+.revId {
+  width: 60px;
+}
+
+.revStDate {
+  width: 125px;
+}
+
+.revEdDate {
+  width: 125px;
+}
+
+.revStatus {
+  width: 85px;
+}
+
+.registerUser {
+  width: 100px;
+}
+
+.registerDate {
+  width: 125px;
+}
+
+.tilde {
+  margin-left: 180px;
+}
+
+div#footer {
+  width: 95%;
+  position: absolute;
+  bottom: 20px;
+}
+
+div.buttons-left {
+  text-align: left;
+  float: left;
+}
+
+div.buttons-right {
+  text-align: right;
+}
+
+textarea{
+ width: 99%;
+}
+</style>
+</head>
+<body>
+    <div class="content-area">
+        <!-- ファイルのデータを受け取りたいなら enctype="multipart/form-data" 追加
+         th:object modelに入れた情報を表示 -->
+        <form id="form" action="" method="POST" th:object="${meetingReservationListForm}">
+            <label class="title">会議室新規予約</label>
+            <table class="main list">
+                <tr>
+                    <th class="revId">予約ID</th>
+                    <td><label>自動生成されます</label></td>
+                </tr>
+                <tr>
+                    <th>会議名</th>
+                    <td>
+                        <!-- th:field はnameとvalueを生成する --> <input type="text" maxlength="50" placeholder="会議名を入力してください" th:field="*{reservationName}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="revDate">使用予定時間</th>
+                    <td>
+                        <div class="DateAndTime">
+                            <label class="label">使用開始日付</label>
+                            <input type="text" class="datepicker" size="10" th:field="*{meetingStartDateD}" />
+                            <label class="label">使用開始時間</label> <select name="meetingStartDateH">
+                                <option></option>
+                                <option th:each="item : ${startHourItems}" th:value="${item.value}" th:text="${item.key}" th:field="*{meetingStartDateH}"></option>
+                            </select> <label>時</label> <select name="meetingStartDateM">
+                                <option></option>
+                                <option th:each="item : ${minuteItems}" th:value="${item.value}" th:text="${item.key}" th:field="*{meetingStartDateM}"></option>
+                            </select> <label>分</label>
+                        </div>
+                        <div>
+                            <label class="tilde">～</label>
+                        </div>
+                        <div class="DateAndTime">
+                            <label class="label">使用終了日付</label>
+                            <input type="text" class="datepicker" size="10" th:field="*{meetingEndDateD}" />
+                            <label class="label">使用終了時間</label> <select name="meetingEndDateH">
+                                <option></option>
+                                <option th:each="item : ${endHourItems}" th:value="${item.value}" th:text="${item.key}" th:field="*{meetingEndDateH}"></option>
+                            </select> <label>時</label> <select name="meetingEndDateM">
+                                <option></option>
+                                <option th:each="item : ${minuteItems}" th:value="${item.value}" th:text="${item.key}" th:field="*{meetingEndDateM}"></option>
+                            </select> <label>分</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="remarks">備考</th>
+                    <!-- textareaのrowsは縦幅 colsは横幅 -->
+                    <td><textarea rows="4" cols="128" placeholder="要望があれば入力してください" th:field="*{remarks}" /></textarea></td>
+                </tr>
+                <tr>
+                    <th class="revStatus">予約ステータス</th>
+                    <td><label>-</label></td>
+                </tr>
+                <tr>
+                    <th class="registerUser">登録者</th>
+                    <td><input type="text" maxlength="50" placeholder="名前を入力してください" th:field="*{registUser}" /></td>
+                </tr>
+                <tr>
+                    <th class="registerDate">登録時間</th>
+                    <td>
+                        <div>
+                            <label>登録時に自動的に作成されます</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div id="footer">
+                <div>
+                    <!-- onclickの先のJavaScriptが起動 -->
+                    <div class="buttons-left">
+                        <input type="button" id="backList" class="btn-defalut" value="一覧へ戻る">
+                    </div>
+                    <div class="buttons-right">
+                        <input type="button" id="register" class="btn-defalut" value="予約">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

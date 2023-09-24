@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- ブラウザのタイトル -->
+<title>会議予約確認</title>
+<!-- htmlの指定とエンコーディングの指定 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- jquery読込 -->
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script>
+	/* 読み込み時実行 (jquery) */
+	$(function() {
+	    /* 会議一覧画面へ遷移 */
+		$('#backList').on('click', function() {
+			const url = '/MeetingReservation/MeetingReservationList/View';
+			$('#form').attr('action', url);
+			$('#form').submit();
+		});
+
+        /* 編集画面へ遷移 */
+		$('#modify').on('click', function() {
+			const url = '/MeetingReservation/MeetingReservationRegist/View';
+			$('#form').attr('action', url);
+			$('#form').submit();
+		});
+
+	});
+</script>
+
+<style>
+html, body {
+  height: 90%;
+}
+
+.content-area {
+  font-family: Meiryo UI;
+  font-size: 10pt;
+}
+
+.title {
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+table.main {
+  margin: 8px;
+  border-collapse: collapse;
+}
+
+.sarch th {
+  width: 100px;
+}
+
+.sarch td {
+  width: 185px;
+}
+
+th, td {
+  border-top: solid 1px;
+  border-left: solid 1px;
+  border-right: solid 1px;
+  border-bottom: solid 1px;
+}
+
+.hidden_box {
+  margin: 30px 0; /*上下左右の余白*/
+}
+
+/* ボタン装飾 */
+.hidden_box label {
+  margin: 8px;
+  padding: 5px 200px 5px 5px;
+  font-weight: bold;
+  border: solid 2px black;
+  cursor: pointer;
+}
+
+/* ボタンにカーソル合わせた時の色 */
+.hidden_box label:hover {
+  background: #CCFFFF;
+}
+
+/* チェックボックスは隠しで見えなくする */
+.hidden_box input[type=checkbox] {
+  display: none;
+}
+
+/* 中身を非表示にしておく */
+.hidden_box .hidden_show {
+  height: 0;
+  overflow: hidden;
+  opacity: 0; /*透明の状態*/
+  transition: 0.5s;
+}
+
+/*クリックで中身表示*/
+/*checkboxにチェック時、間接セレクタ（hidden_show）にCSSを適用*/
+.hidden_box input[type=checkbox]:checked ~ .hidden_show {
+  height: auto;
+  opacity: 1; /*不透明の状態*/
+}
+
+.sarch input[type=text] {
+  /*box-sizing:border-boxを指定する事で、width（とheight）で指定するサイズをBorderまで含める。*/
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.sarch select {
+  width: 100%;
+}
+
+table.list {
+  table-layout: fixed;
+  word-wrap: break-word;
+  width: 1000px;
+}
+
+.checkBox {
+  width: 20px;
+}
+
+.revId {
+  width: 60px;
+}
+
+.revStDate {
+  width: 125px;
+}
+
+.revEdDate {
+  width: 125px;
+}
+
+.revStatus {
+  width: 85px;
+}
+
+.registerUser {
+  width: 100px;
+}
+
+.registerDate {
+  width: 125px;
+}
+
+#reservation {
+  width: 50px;
+}
+
+#cancel {
+  width: 90px;
+}
+
+div#footer {
+  width: 95%;
+  position: absolute;
+  bottom: 20px;
+}
+
+div.buttons-left {
+  text-align: left;
+  float: left;
+}
+
+div.buttons-right {
+  text-align: right;
+}
+</style>
+</head>
+<body>
+    <div class="content-area">
+        <!-- th:object modelに入れた情報を表示 -->
+        <form id="form" action="" method="POST" th:object="${meetingReservationListForm}">
+            <!-- hiddenで画面に表示されない (情報を持っておきたい時に使用) -->
+            <input id="selectedId" type="hidden" value="" />
+            <label class="title">会議室予約確認</label>
+            <table class="main list">
+                <tr>
+                    <th class="revId">予約ID</th>
+                    <td th:text="*{#numbers.formatInteger(reservationId,6)}"></td>
+                </tr>
+                <tr>
+                    <th>予約名</th>
+                    <td th:text="*{reservationName}"></td>
+                </tr>
+                <tr>
+                    <th class="revStDate">予約開始時間</th>
+                    <td th:text="(*{meetingStartDate}!=null)?*{#dates.format(meetingStartDate, 'yyyy/MM/dd HH:mm')}:'-'"></td>
+                </tr>
+                <tr>
+                    <th class="revEdDate">予約終了時間</th>
+                    <td th:text="(*{meetingEndDate}!=null)?*{#dates.format(meetingEndDate, 'yyyy/MM/dd HH:mm')}:'-'"></td>
+                </tr>
+                <tr>
+                    <th class="remarks">備考</th>
+                    <td th:text="*{remarks}"></td>
+                </tr>
+                <tr>
+                    <th class="revStatus">予約ステータス</th>
+                    <td th:text="*{reservationStatusDisp}"></td>
+                </tr>
+                <tr>
+                    <th class="registerUser">登録者</th>
+                    <td th:text="*{registUser}"></td>
+                </tr>
+                <tr>
+                    <th class="registerDate">登録時間</th>
+                    <td th:text="(*{registDate}!=null)?*{#dates.format(registDate, 'yyyy/MM/dd HH:mm')}:'-'"></td>
+                </tr>
+            </table>
+            <div id="footer">
+                <div>
+                    <!-- onclickの先のJavaScriptが起動 -->
+                    <div class="buttons-left">
+                        <input type="button" id="backList" class="btn-defalut" value="一覧へ戻る">
+                    </div>
+                    <div class="buttons-right">
+                        <input type="button" id="reservation" class="btn-defalut" th:disabled="*{reservationStatus}==1" value="予約">
+                        <input type="button" id="cancel" class="btn-defalut" th:disabled="*{reservationStatus}!=1" value="キャンセル">
+                        <input type="button" id="modify" class="btn-defalut" th:disabled="*{reservationStatus}==1" value="編集">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

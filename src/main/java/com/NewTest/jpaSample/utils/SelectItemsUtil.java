@@ -15,8 +15,8 @@ public class SelectItemsUtil {
     public final static Map<String, String> START_HOUR_ITEMS =
             Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
                 {
-                    String key = null;
-                    String value = null;
+                    String key;
+                    String value;
 
                     // 8-19時まで作成
                     for (int i = 8; i <= 19; i++) {
@@ -31,8 +31,8 @@ public class SelectItemsUtil {
     public static final Object END_HOUR_ITEMS =
             Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
                 {
-                    String key = null;
-                    String value = null;
+                    String key;
+                    String value;
 
                     // 0-23時まで作成
                     for (int i = 0; i <= 23; i++) {
@@ -56,4 +56,14 @@ public class SelectItemsUtil {
                 }
             });
 
+    /** 検索で使用する予約ステータス */
+    public final static Map<String, String> RESERVATION_STATUS_ITEMS =
+            Collections.unmodifiableMap(new LinkedHashMap<String, String>() {
+                {
+                    put("1", "予約中");
+                    put("2", "キャンセル");
+                    put("3", "終了");
+                    put("4", "削除");
+                }
+            });
 }

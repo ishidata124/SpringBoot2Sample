@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- ブラウザのタイトル -->
+    <title>ユーザ新規登録</title>
+    <!-- htmlの指定とエンコーディングの指定 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- cssの読込 -->
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css" />
+    <!-- jquery読込 -->
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <!-- 国際化対応のライブラリをインポート-->
+    <script type="text/javascript" src="/js/jquery-ui-i18n.min.js"></script>
+    <!-- Thymeleafをjavascriptで使用する場合、以下2行のタグが必要(開始タグ) -->
+    <script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+/* 読み込み時実行 (jquery) */
+$(function() {
+    /* ユーザ一覧画面に遷移 */
+    $('#backList').on('click', function() {
+        const url = '/UserManagement/UserList/View';
+        $('#form').attr('action', url);
+        $('#form').submit();
+    });
+
+    /* ユーザ登録処理 */
+    $('#register').on('click', function() {
+        const url = '/UserManagement/UserRegist/Register';
+        $('#form').attr('action', url);
+        $('#form').submit();
+    });
+
+    /* 画面にエラーダイアログ出力 */
+	// Thymeleafで渡された内容を取得
+	let dialogueErrMsg = [[${userListForm.dialogueErrMsg}]];
+
+	// 中身があるか確認
+	if(dialogueErrMsg){
+		// ダイアログを出力
+		alert(dialogueErrMsg);
+	}
+});
+
+ /*]]>*/
+</script>
+    <!-- Thymeleafをjavascriptで使用する場合、直前2行のタグが必要(閉じタグ) -->
+
+    <style>
+html, body {
+  height: 90%;
+}
+
+.content-area {
+  font-family: Meiryo UI;
+  font-size: 10pt;
+}
+
+.title {
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+table.main {
+  margin: 8px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-top: solid 1px;
+  border-left: solid 1px;
+  border-right: solid 1px;
+  border-bottom: solid 1px;
+}
+
+table.list {
+  table-layout: fixed;
+  word-wrap: break-word;
+  width: 1000px;
+}
+
+.tb_th {
+  width: 100px;
+}
+
+div#footer {
+  width: 95%;
+  position: absolute;
+  bottom: 20px;
+}
+
+div.buttons-left {
+  text-align: left;
+  float: left;
+}
+
+div.buttons-right {
+  text-align: right;
+}
+
+textarea{
+ width: 99%;
+}
+
+/* inputのテキストの横幅 */
+input[type=text] {
+  width: 880px;
+}
+</style>
+</head>
+<body>
+<div class="content-area">
+    <!-- ファイルのデータを受け取りたいなら enctype="multipart/form-data" 追加
+     th:object modelに入れた情報を表示 -->
+    <form id="form" action="" method="POST" th:object="${userListForm}">
+        <label class="title">ユーザ新規登録</label>
+        <table class="main list">
+            <tr>
+                <th class="tb_th">ユーザID</th>
+                <td>
+                    <!-- th:field はnameとvalueを生成する --> <input type="text" maxlength="50" placeholder="IDを入力してください" th:field="*{userId}" />
+                </td>
+            </tr>
+            <tr>
+                <th>ユーザ名</th>
+                <td>
+                    <!-- th:field はnameとvalueを生成する --> <input type="text" maxlength="50" placeholder="ユーザ名を入力してください" th:field="*{userName}" />
+                </td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td>
+                    <!-- th:field はnameとvalueを生成する --> <input type="text" maxlength="255" placeholder="メールアドレスを入力してください" th:field="*{userMail}" />
+                </td>
+            </tr>
+        </table>
+        <div id="footer">
+            <div>
+                <!-- onclickの先のJavaScriptが起動 -->
+                <div class="buttons-left">
+                    <input type="button" id="backList" class="btn-defalut" value="一覧へ戻る">
+                </div>
+                <div class="buttons-right">
+                    <input type="button" id="register" class="btn-defalut" value="登録">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

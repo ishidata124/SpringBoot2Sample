@@ -1,5 +1,12 @@
 package com.NewTest.jpaSample.form;
 
+import com.NewTest.jpaSample.constant.MeetingReservationConstant;
+import com.NewTest.jpaSample.entity.MeetingReservationInfo;
+import com.NewTest.jpaSample.utils.DateTimeUtil;
+import com.NewTest.jpaSample.utils.MakeLabelUtil;
+import lombok.Data;
+import org.springframework.util.ObjectUtils;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -8,17 +15,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
-
-import com.NewTest.jpaSample.constant.MeetingReservationConstant;
-import com.NewTest.jpaSample.entity.MeetingReservationList;
-import com.NewTest.jpaSample.utils.DateTimeUtil;
-
 /**
- * 受け渡しする会議予約情報のためのクラス
+ * 会議予約情報フォーム
  *
  * @author john
  */
+@Data
 public class MeetingReservationListForm extends FormBase implements Serializable {
     /** Form名 */
     public static final String FORM_NAME = "meetingReservationListForm";
@@ -77,311 +79,8 @@ public class MeetingReservationListForm extends FormBase implements Serializable
     /** 会議予約情報リスト */
     private List<MeetingReservationListForm> meetingReservationFormList;
 
-    /**
-     * 予約IDを取得します。
-     *
-     * @return 予約ID
-     */
-    public Integer getReservationId() {
-        return reservationId;
-    }
-
-    /**
-     * 予約IDを設定します。
-     *
-     * @param reservationId 予約ID
-     */
-    public void setReservationId(Integer reservationId) {
-        this.reservationId = reservationId;
-    }
-
-    /**
-     * 画面選択IDを取得します。
-     *
-     * @return 画面選択ID
-     */
-    public Integer getSelectedId() {
-        return selectedId;
-    }
-
-    /**
-     * 画面選択IDを設定します。
-     *
-     * @param selectedId 画面選択ID
-     */
-    public void setSelectedId(Integer selectedId) {
-        this.selectedId = selectedId;
-    }
-
-    /**
-     * 予約名を取得します。
-     *
-     * @return 予約名
-     */
-    public String getReservationName() {
-        return reservationName;
-    }
-
-    /**
-     * 予約名を設定します。
-     *
-     * @param reservationName 予約名
-     */
-    public void setReservationName(String reservationName) {
-        this.reservationName = reservationName;
-    }
-
-    /**
-     * 予約開始日時(日)を取得します。
-     *
-     * @return 予約開始日時(日)
-     */
-    public String getMeetingStartDateD() {
-        return meetingStartDateD;
-    }
-
-    /**
-     * 予約開始日時(日)を設定します。
-     *
-     * @param meetingStartDateD 予約開始日時(日)
-     */
-    public void setMeetingStartDateD(String meetingStartDateD) {
-        this.meetingStartDateD = meetingStartDateD;
-    }
-
-    /**
-     * 予約開始日時(時)を取得します。
-     *
-     * @return 予約開始日時(時)
-     */
-    public String getMeetingStartDateH() {
-        return meetingStartDateH;
-    }
-
-    /**
-     * 予約開始日時(時)を設定します。
-     *
-     * @param meetingStartDateH 予約開始日時(時)
-     */
-    public void setMeetingStartDateH(String meetingStartDateH) {
-        this.meetingStartDateH = meetingStartDateH;
-    }
-
-    /**
-     * 予約開始日時(分)を取得します。
-     *
-     * @return 予約開始日時(分)
-     */
-    public String getMeetingStartDateM() {
-        return meetingStartDateM;
-    }
-
-    /**
-     * 予約開始日時(分)を設定します。
-     *
-     * @param meetingStartDateM 予約開始日時(分)
-     */
-    public void setMeetingStartDateM(String meetingStartDateM) {
-        this.meetingStartDateM = meetingStartDateM;
-    }
-
-    /**
-     * 予約終了日時(日)を取得します。
-     *
-     * @return 予約終了日時(日)
-     */
-    public String getMeetingEndDateD() {
-        return meetingEndDateD;
-    }
-
-    /**
-     * 予約終了日時(日)を設定します。
-     *
-     * @param meetingEndDateD 予約終了日時(日)
-     */
-    public void setMeetingEndDateD(String meetingEndDateD) {
-        this.meetingEndDateD = meetingEndDateD;
-    }
-
-    /**
-     * 予約終了日時(時)を取得します。
-     *
-     * @return 予約終了日時(時)
-     */
-    public String getMeetingEndDateH() {
-        return meetingEndDateH;
-    }
-
-    /**
-     * 予約終了日時(時)を設定します。
-     *
-     * @param meetingEndDateH 予約終了日時(時)
-     */
-    public void setMeetingEndDateH(String meetingEndDateH) {
-        this.meetingEndDateH = meetingEndDateH;
-    }
-
-    /**
-     * 予約終了日時(分)を取得します。
-     *
-     * @return 予約終了日時(分)
-     */
-    public String getMeetingEndDateM() {
-        return meetingEndDateM;
-    }
-
-    /**
-     * 予約終了日時(分)を設定します。
-     *
-     * @param meetingEndDateM 予約日時(分)
-     */
-    public void setMeetingEndDateM(String meetingEndDateM) {
-        this.meetingEndDateM = meetingEndDateM;
-    }
-
-    /**
-     * 備考を取得します。
-     *
-     * @return 備考
-     */
-    public String getRemarks() {
-        return remarks;
-    }
-
-    /**
-     * 備考を設定します。
-     *
-     * @param remarks 備考
-     */
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-    /**
-     * 予約ステータスを取得します。
-     *
-     * @return 予約ステータス
-     */
-    public Integer getReservationStatus() {
-        return reservationStatus;
-    }
-
-    /**
-     * 予約ステータスを設定します。
-     *
-     * @param reservationStatus 予約ステータス
-     */
-    public void setReservationStatus(Integer reservationStatus) {
-        this.reservationStatus = reservationStatus;
-    }
-
-    /**
-     * 予約ステータス(画面表示用)を取得します。
-     *
-     * @return 予約ステータス(画面表示用)
-     */
-    public String getReservationStatusDisp() {
-        return reservationStatusDisp;
-    }
-
-    /**
-     * 予約ステータス(画面表示用)を設定します。
-     *
-     * @param reservationStatusDisp 予約ステータス(画面表示用)
-     */
-    public void setReservationStatusDisp(String reservationStatusDisp) {
-        this.reservationStatusDisp = reservationStatusDisp;
-    }
-
-    /**
-     * 登録者を取得します。
-     *
-     * @return 登録者
-     */
-    public String getRegistUser() {
-        return registUser;
-    }
-
-    /**
-     * 登録者を設定します。
-     *
-     * @param registUser 登録者
-     */
-    public void setRegistUser(String registUser) {
-        this.registUser = registUser;
-    }
-
-    /**
-     * 登録日時を取得します。
-     *
-     * @return 登録日時
-     */
-    public Date getRegistDate() {
-        return registDate;
-    }
-
-    /**
-     * 登録日時を設定します。
-     *
-     * @param registDate 登録日時
-     */
-    public void setRegistDate(Date registDate) {
-        this.registDate = registDate;
-    }
-
-    /**
-     * 時間セレクトボックス項目（開始）を取得します。
-     *
-     * @return 時間セレクトボックス項目（開始）
-     */
-    public Map<String, String> getStartHourItems() {
-        return startHourItems;
-    }
-
-    /**
-     * 時間セレクトボックス項目（開始）を設定します。
-     *
-     * @param startHourItems 時間セレクトボックス項目（開始）
-     */
-    public void setStartHourItems(Map<String, String> startHourItems) {
-        this.startHourItems = startHourItems;
-    }
-
-    /**
-     * 時間セレクトボックス項目（開始）を取得します。
-     *
-     * @return 時間セレクトボックス項目（開始）
-     */
-    public Map<String, String> getEndHourItems() {
-        return endHourItems;
-    }
-
-    /**
-     * 時間セレクトボックス項目（開始）を設定します。
-     *
-     * @param endHourItems 時間セレクトボックス項目（開始）
-     */
-    public void setEndHourItems(Map<String, String> endHourItems) {
-        this.endHourItems = endHourItems;
-    }
-
-    /**
-     * 分セレクトボックス項目を取得します。
-     *
-     * @return 分セレクトボックス項目
-     */
-    public Map<String, String> getMinuteItems() {
-        return minuteItems;
-    }
-
-    /**
-     * 分セレクトボックス項目を設定します。
-     *
-     * @param minuteItems 分セレクトボックス項目
-     */
-    public void setMinuteItems(Map<String, String> minuteItems) {
-        this.minuteItems = minuteItems;
-    }
+    /** 予約ステータスセレクトボックス項目 */
+    private Map<String, String> reservationStatusItems;
 
     /**
      * 使用開始日時を取得します。
@@ -389,8 +88,8 @@ public class MeetingReservationListForm extends FormBase implements Serializable
      * @return 使用開始日時
      */
     public Date getMeetingStartDate() {
-        if (StringUtils.isEmpty(meetingStartDateD) || StringUtils.isEmpty(meetingStartDateH) ||
-                StringUtils.isEmpty(meetingStartDateM)) {
+        if (ObjectUtils.isEmpty(meetingStartDateD) || ObjectUtils.isEmpty(meetingStartDateH) ||
+                ObjectUtils.isEmpty(meetingStartDateM)) {
             return null;
         }
 
@@ -398,8 +97,8 @@ public class MeetingReservationListForm extends FormBase implements Serializable
             return null;
         }
 
-        int dateH = -1;
-        int dateM = -1;
+        int dateH;
+        int dateM;
         try {
             dateH = Integer.parseInt(meetingStartDateH);
             dateM = Integer.parseInt(meetingStartDateM);
@@ -438,8 +137,8 @@ public class MeetingReservationListForm extends FormBase implements Serializable
      * @return 使用終了日時
      */
     public Date getMeetingEndDate() {
-        if (StringUtils.isEmpty(meetingEndDateD) || StringUtils.isEmpty(meetingEndDateH) ||
-                StringUtils.isEmpty(meetingEndDateM)) {
+        if (ObjectUtils.isEmpty(meetingEndDateD) || ObjectUtils.isEmpty(meetingEndDateH) ||
+                ObjectUtils.isEmpty(meetingEndDateM)) {
             return null;
         }
 
@@ -484,38 +183,19 @@ public class MeetingReservationListForm extends FormBase implements Serializable
     /**
      * 会議室予約一覧情報を設定します。
      *
-     * @param meetingReservationList 会議室予約一覧情報
+     * @param meetingReservationInfo 会議室予約一覧情報
      */
-    public void setMeetingReservationList(MeetingReservationList meetingReservationList) {
+    public void setMeetingReservationList(MeetingReservationInfo meetingReservationInfo) {
+        this.setReservationId(meetingReservationInfo.getReservationId());
+        this.setReservationName(meetingReservationInfo.getReservationName());
+        this.setMeetingStartDate(meetingReservationInfo.getReservationStartDate());
+        this.setMeetingEndDate(meetingReservationInfo.getReservationEndDate());
+        this.setReservationStatus(meetingReservationInfo.getReservationStatus());
+        this.setRegistUser(meetingReservationInfo.getRegistUser());
+        this.setRegistDate(meetingReservationInfo.getRegistDate());
 
-        this.setReservationId(meetingReservationList.getReservationId());
-        this.setReservationName(meetingReservationList.getReservationName());
-        this.setMeetingStartDate(meetingReservationList.getReservationStartDate());
-        this.setMeetingEndDate(meetingReservationList.getReservationEndDate());
-        this.setReservationStatus(meetingReservationList.getReservationStatus());
         // 画面表示用ステータスの設定
-        this.setReservationStatusDisp(MeetingReservationConstant.getReservationStatusLabel(meetingReservationList.getReservationStatus().toString()));
-
-        this.setRegistUser(meetingReservationList.getRegistUser());
-        this.setRegistDate(meetingReservationList.getRegistDate());
-    }
-
-    /**
-     * 会議予約情報リストを取得します。
-     *
-     * @return 会議予約情報リスト
-     */
-    public List<MeetingReservationListForm> getMeetingReservationFormList() {
-        return meetingReservationFormList;
-    }
-
-    /**
-     * 会議予約情報リストを設定します。
-     *
-     * @param meetingReservationFormList 会議予約情報リスト
-     */
-    public void setMeetingReservationFormList(List<MeetingReservationListForm> meetingReservationFormList) {
-        this.meetingReservationFormList = meetingReservationFormList;
+        this.setReservationStatusDisp(MakeLabelUtil.getReservationStatusLabel(meetingReservationInfo.getReservationStatus().toString()));
     }
 
     /**
@@ -526,13 +206,13 @@ public class MeetingReservationListForm extends FormBase implements Serializable
     public String valid() {
 
         // 予約名が入力されているかチェック
-        if (StringUtils.isEmpty(this.reservationName)) {
+        if (ObjectUtils.isEmpty(this.reservationName)) {
             // エラーメッセージを返却
             return "予約名が入力されていません";
         }
 
         // 登録者が入力されているかチェック
-        if (StringUtils.isEmpty(this.registUser)) {
+        if (ObjectUtils.isEmpty(this.registUser)) {
             // エラーメッセージを返却
             return "登録者が入力されていません";
         }
@@ -545,19 +225,18 @@ public class MeetingReservationListForm extends FormBase implements Serializable
      *
      * @param inMeetingReservationForm データベース取得フォーム情報
      */
-    public void copy(MeetingReservationList inMeetingReservationForm) {
+    public void copy(MeetingReservationInfo inMeetingReservationForm) {
         this.setReservationId(inMeetingReservationForm.getReservationId());
         this.setReservationName(inMeetingReservationForm.getReservationName());
         this.setMeetingStartDate(inMeetingReservationForm.getReservationStartDate());
         this.setMeetingEndDate(inMeetingReservationForm.getReservationEndDate());
         this.setReservationStatus(inMeetingReservationForm.getReservationStatus());
         this.setRemarks(inMeetingReservationForm.getRemarks());
-        // 画面表示用ステータスの設定
-        this.setReservationStatusDisp(MeetingReservationConstant
-                .getReservationStatusLabel(inMeetingReservationForm.getReservationStatus().toString()));
-
         this.setRegistUser(inMeetingReservationForm.getRegistUser());
         this.setRegistDate(inMeetingReservationForm.getRegistDate());
 
+        // 画面表示用ステータスの設定
+        this.setReservationStatusDisp(MakeLabelUtil
+                .getReservationStatusLabel(inMeetingReservationForm.getReservationStatus().toString()));
     }
 }

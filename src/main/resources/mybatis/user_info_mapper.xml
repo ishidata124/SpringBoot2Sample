@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.NewTest.myBatisSample.mapper.UserInfoMapper">
+    <select id="selectAll" resultType="com.NewTest.myBatisSample.entity.UserInfo">
+        SELECT
+          user_no,
+          user_id,
+          user_name,
+          user_mail,
+          last_login_data_time,
+          pw_elapsed_date,
+          user_status
+        FROM
+          user_info
+    </select>
+
+    <select id="selectUserInfoByUserNo" resultType="com.NewTest.myBatisSample.entity.UserInfo" parameterType="int">
+        SELECT
+          user_no,
+          user_id,
+          user_name,
+          user_mail,
+          last_login_data_time,
+          pw_elapsed_date,
+          user_status
+        FROM
+          user_info
+        WHERE
+          user_no = #{userNo}
+    </select>
+
+    <select id="selectUserInfoByUserId" resultType="com.NewTest.myBatisSample.entity.UserInfo" parameterType="String">
+        SELECT
+          user_no,
+          user_id,
+          user_name,
+          user_mail,
+          last_login_data_time,
+          pw_elapsed_date,
+          user_status
+        FROM
+          user_info
+        WHERE
+          user_id = #{userId}
+    </select>
+
+    <select id="selectUserInfoByUserMail" resultType="com.NewTest.myBatisSample.entity.UserInfo" parameterType="String">
+        SELECT
+          user_no,
+          user_id,
+          user_name,
+          user_mail,
+          last_login_data_time,
+          pw_elapsed_date,
+          user_status
+        FROM
+          user_info
+        WHERE
+          user_mail = #{userMail}
+    </select>
+
+    <insert id="insertUserInfo" parameterType="com.NewTest.myBatisSample.entity.UserInfo">
+        INSERT INTO user_info
+        (
+          user_id,
+          user_password,
+          user_name,
+          user_mail,
+          user_status
+        )
+        VALUES
+        (
+          #{userId},
+          #{userPassword},
+          #{userName},
+          #{userMail},
+          0
+        )
+    </insert>
+</mapper>

@@ -1,5 +1,7 @@
 package com.NewTest.dbNone.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,6 +18,9 @@ import com.NewTest.dbNone.constant.DbNoneConstant;
 @RequestMapping(value = "/dbNone")
 public class DbNoneMeetingReservationListController {
 
+    /** ロガー */
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * 上記クラスの下の○○が/listでアクセス
      *
@@ -23,6 +28,7 @@ public class DbNoneMeetingReservationListController {
      */
     @RequestMapping(value = "/list")
     public String view() {
+        logger.info("DB接続無し一覧画面が表示されます。");
 
         return "/dbNone/MeetingReservationList";
     }
@@ -35,6 +41,7 @@ public class DbNoneMeetingReservationListController {
      */
     @RequestMapping(value = DbNoneConstant.ID1)
     public String id1() {
+        logger.info("DB接続無し予約確認画面が表示されます。");
 
         return DbNoneConstant.CONFIRMID1;
     }

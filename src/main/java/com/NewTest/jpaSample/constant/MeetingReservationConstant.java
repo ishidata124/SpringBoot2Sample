@@ -9,18 +9,27 @@ public class MeetingReservationConstant {
 
     // Controllerへ ---------------------------------------------------------------------
     /** 会議予約一覧画面(初期表示) */
-    public static final String URL_MEETINGRESERVATION_VIEW = "/jpa/MeetingReservationList";
+    public static final String URL_MEETING_RESERVATION_VIEW = "/MeetingReservation/MeetingReservationList/View";
 
     /** 会議予約登録画面(初期表示) */
-    public static final String URL_MEETINGRESERVATIONREGIST_VIEW = "/jpa/MeetingReservationRegist/View";
+    public static final String URL_MEETING_RESERVATION_REGIST_VIEW = "/MeetingReservation/MeetingReservationRegist/View";
+
+    /** 会議予約登録画面(登録) */
+    public static final String URL_MEETING_RESERVATION_REGIST_RAGISTER = "/MeetingReservation/MeetingReservationRegist/Register";
+
+    /** 会議予約確認画面(初期表示) */
+    public static final String URL_MEETING_RESERVATION_CONFIRM_VIEW = "/MeetingReservation/MeetingReservationConfirm/View";
 
     // htmlへ ---------------------------------------------------------------------
 
     /** 会議予約リスト一覧画面(画面パス) */
-    public static final String PAGE_MEETINGRESERVATIONLIST = "jpa/MeetingReservationList";
+    public static final String PAGE_MEETING_RESERVATION_LIST = "MeetingReservation/MeetingReservationList";
 
     /** 会議予約新規登録画面(画面パス) */
-    public static final String PAGE_MEETINGRESERVATIONREGIST = "jpa/MeetingReservationRegist";
+    public static final String PAGE_MEETING_RESERVATION_REGIST = "MeetingReservation/MeetingReservationRegist";
+
+    /** 会議予約確認画面(画面パス) */
+    public static final String PAGE_MEETING_RESERVATION_CONFIRM = "MeetingReservation/MeetingReservationConfirm";
 
     // 文字定数 ----------------------------------------------------------------------
 
@@ -48,35 +57,9 @@ public class MeetingReservationConstant {
     // Key文字定数 ----------------------------------------------------------------------
 
     /** meetingReservationListFormのKey定数 */
-    public static final String MEETINGRESERVATIONLISTFORM = "meetingReservationListForm";
+    public static final String MEETING_RESERVATION_LIST_FORM = "meetingReservationListForm";
 
-    // ラベル作成 ----------------------------------------------------------------------
+    /** reservationStatusItemsのKey定数 */
+    public static final String RESERVATION_STATUS_ITEMS = "reservationStatusItems";
 
-    /**
-     * 予約ステータスラベルを取得
-     *
-     * @param status 予約ステータス番号
-     * @return 予約ステータス番号に対応したラベル
-     */
-    public static String getReservationStatusLabel(String status) {
-        String label = null;
-
-        switch (status) {
-            case RESERVED:
-                label = LABEL_RESERVED;
-                break;
-            case EDITING:
-                label = LABEL_EDITING;
-                break;
-            case CANCEL:
-                label = LABEL_CANCEL;
-                break;
-            case MeetingReservationConstant.BLANK:
-                label = MeetingReservationConstant.BLANK;
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-        return label;
-    }
 }
