@@ -1,0 +1,47 @@
+version: '3'
+services:
+  # DBの設定
+  db:
+    container_name: ${MYSQL_CONTAINER_NAME}
+    # https://hub.docker.com/_/mysql
+    image: mysql:5.7.40
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+#      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      TZ: ${TZ}
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./db/sql:/docker-entrypoint-initdb.d
+      - "bundle:/usr/local/bundle"
+  # app
+  web:
+#    build: .
+    #
+    image: maven:3.8.6-amazoncorretto-8
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ./mvnw spring-boot:run
+  # phpMyAdmin
+  phpmyadmin:
+    container_name: phpmyadmin
+    # https://hub.docker.com/r/phpmyadmin/phpmyadmin/
+    image: phpmyadmin/phpmyadmin:5.2.0
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=${MYSQL_CONTAINER_NAME}
+      - PMA_USER=root
+      - PMA_PASSWORD=${ROOT_PASS}
+    ports:
+      - 8081:80
+volumes:
+  db-data:
+  bundle:
+    driver: local

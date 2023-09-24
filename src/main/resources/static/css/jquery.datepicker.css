@@ -1,0 +1,13 @@
+.ui-datepicker *{
+	font-family:"ƒƒCƒŠƒI",sans-serif;
+}
+.ui-datepicker *{
+	font-size: 18px;
+}
+.ui-widget {
+	font-size:150%;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+	font-weight: bold;
+}

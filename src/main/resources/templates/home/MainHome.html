@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>練習ホーム</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- jquery読込 -->
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<!-- javaScriptやjQueryの記述  -->
+<script>
+	/* jQuery */
+	$(function() {
+		/* クラス名.on(何をしたか,何をするか) ('click'はクリック時) */
+		$('#MeetingReservationNoJpa').on('click', function() {
+			/* ダイアログの出力(「OK」と「キャンセル」がついているやつ) */
+			let ret = confirm("データベース接続設定されていないページに遷移します。よろしいですか？");
+			/* 「OK」を選択時 */
+			if (ret == true) {
+				window.location.href = '/dbNone/list';
+				/* 「OK」を選択していない場合 */
+			} else {
+				return false;
+			}
+		});
+
+		$('#MeetingReservationOnJpa').on('click', function() {
+			window.location.href = '/jpa/MeetingReservationList';
+		});
+
+		$('#MeetingReservationOnMyBatis').on('click', function() {
+			window.location.href = '/MyBatis/MeetingReservationList';
+		});
+	});
+</script>
+
+<!-- cssの記述 -->
+<style>
+/* 「,」で区切ると複数指定できる */
+html, body {
+  /* 高さ90%に */
+  height: 90%;
+}
+
+/* titleの名前が付けられたクラスを指定 */
+.title {
+  /* 文字の大きさ20pt */
+  font-size: 20pt;
+  /* 文字を太文字に */
+  font-weight: bold;
+}
+
+/* headerのidが付けられたところを指定 */
+#header {
+  /* 上に空白(10px) */
+  margin-top: 10px;
+}
+
+/* div要素のfooterの名前が付けられたidを指定 */
+div#footer {
+  /* 横サイズ100%に */
+  width: 100%;
+  /* 文字を要素の真ん中に */
+  text-align: center;
+  /* 表示場所を親要素の一番下に */
+  position: absolute;
+  bottom: 0;
+}
+
+/* div要素のmainListの名前が付けられたclassを指定 */
+div.mainList {
+  /* 下に空白(10px) */
+  margin-bottom: 10px;
+}
+
+.red {
+  /* 赤色 */
+  color: #ff0000;
+  font-weight: bold;
+}
+</style>
+
+</head>
+
+<body>
+    <div id="header">
+        <label class="title">サンプルホーム</label>
+    </div>
+    <!-- divはブロックになる要素 spanはブロックにならない要素 -->
+    <div id="mainListFrame">
+        <div class="mainList">
+            <!-- ボタン -->
+            <button type="button" id="MeetingReservationNoJpa">DB無し会議室予約一覧</button>
+            <!-- ラベル(文字) -->
+            <label>DB接続<span class="red">無し</span>の会議室予約一覧ページへ遷移します
+            </label>
+        </div>
+        <div class="mainList">
+            <button type="button" id="MeetingReservationOnJpa">JPA会議室予約一覧</button>
+            <label>jpaとthymeleaf<span class="red">有り</span>の会議室予約一覧ページへ遷移します
+            </label>
+        </div>
+        <div class="mainList">
+            <button type="button" id="MeetingReservationOnMyBatis">MyBatisユーザ管理</button>
+            <label>MyBatisとthymeleaf<span class="red">有り</span>のユーザ管理ページへ遷移します
+            </label>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div>
+            <small>Copyright (c) ライセンスフリー Readme 2022/12/1 最終更新</small>
+        </div>
+
+    </div>
+</body>
+</html>
